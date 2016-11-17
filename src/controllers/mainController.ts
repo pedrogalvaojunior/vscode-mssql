@@ -17,6 +17,7 @@ import CodeAdapter from '../prompts/adapter';
 import Telemetry from '../models/telemetry';
 import VscodeWrapper from './vscodeWrapper';
 import { ISelectionData } from './../models/interfaces';
+import { SqlObjectExplorerNodeProvider } from './../models/sqlObjectExplorerNodeProvider';
 import * as path from 'path';
 import fs = require('fs');
 
@@ -27,6 +28,7 @@ export default class MainController implements vscode.Disposable {
     private _context: vscode.ExtensionContext;
     private _event: events.EventEmitter = new events.EventEmitter();
     private _outputContentProvider: SqlOutputContentProvider;
+    private _sqlObjectExplorerNodeProvider: SqlObjectExplorerNodeProvider;
     private _statusview: StatusView;
     private _connectionMgr: ConnectionManager;
     private _prompter: IPrompter;
@@ -139,6 +141,11 @@ export default class MainController implements vscode.Disposable {
 
                 // Init connection manager and connection MRU
                 self._connectionMgr = new ConnectionManager(self._context, self._statusview, self._prompter);
+
+                // Init object explorer
+                self._sqlObjectExplorerNodeProvider = new SqlObjectExplorerNodeProvider(self._connectionMgr);
+                registration = vscode.window.registerTreeExplorerNodeProvider(SqlObjectExplorerNodeProvider.providerId, self._sqlObjectExplorerNodeProvider);
+                self._context.subscriptions.push(registration);
 
                 // Initialize telemetry
                 Telemetry.initialize(self._context);

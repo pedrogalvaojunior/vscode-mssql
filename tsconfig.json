@@ -11,6 +11,8 @@
     },
     "exclude": [
         "node_modules",
-        "src/views/htmlcontent"
+        "src/views/htmlcontent",
+        "coverage",
+        "out"
     ]
 }

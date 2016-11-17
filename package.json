@@ -23,6 +23,7 @@
   "engines": {
     "vscode": "^1.0.0"
   },
+  "enableProposedApi": true,
   "categories": [
     "Languages"
   ],
@@ -99,6 +100,11 @@
         "configuration": "./syntaxes/sql.configuration.json"
       }
     ],
+    "explorer": {
+      "treeExplorerNodeProviderId": "sqlObjectExplorer",
+      "treeLabel": "SQL Server Object Explorer",
+      "icon": "images/dep.svg"
+    },
     "grammars": [
       {
         "language": "sql",

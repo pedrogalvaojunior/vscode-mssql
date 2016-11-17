@@ -1,0 +1,925 @@
+{
+    "ServerExplorerTree": {
+        "Nodes": [
+            {
+                "Name": "ServerInstance",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerInstance",
+                "Image": "Server",
+                "Children": ["Databases", "ServerLevelSecurity", "ServerLevelServerObjects"]
+            },
+            {
+                "Name": "Databases",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Databases",
+                "Children": ["SystemDatabases"]
+            },
+            {
+                "Name": "ServerLevelSecurity",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Security",
+                "BaseClass": "ModelBased",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV11|AzureV12|NotContainedUser|CanViewSecurity",
+                "Children": ["ServerLevelLinkedServerLogins", "ServerLevelLogins", "ServerLevelServerRoles", "ServerLevelCredentials",
+                    "ServerLevelCryptographicProviders", "ServerLevelServerAudits", "ServerLevelServerAuditSpecifications", "ServerLevelEventSessions"]
+            },
+            {
+                "Name": "ServerLevelServerObjects",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerObjects",
+                "BaseClass": "ModelBased",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|NotContainedUser",
+                "Children": ["ServerLevelEndpoints", "ServerLevelLinkedServers", "ServerLevelServerTriggers", "ServerLevelErrorMessages", "ServerLevelEventNotifications"]
+            },
+            {
+                "Name": "SystemDatabases",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemDatabases",
+                "BaseClass": "Databases",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV11|AzureV12|NotContainedUser|CanConnectToMaster"
+            },
+            {
+                "Name": "ServerLevelLinkedServerLogins",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_LinkedServerLogins",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlLinkedServerLogin",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelLogins",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Logins",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlLogin"
+            },
+            {
+                "Name": "ServerLevelServerRoles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerRoles",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "ISqlServerRole",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelCredentials",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Credentials",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlCredential",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelCryptographicProviders",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_CryptographicProviders",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlCryptographicProvider",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|NotDebugInstance|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelServerAudits",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerAudits",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlServerAudit",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelServerAuditSpecifications",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerAuditSpecifications",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlServerAuditSpecification",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelEventSessions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_EventSessions",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlEventSession",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelEndpoints",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Endpoints",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlEndpoint",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "ServerLevelLinkedServers",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_LinkedServers",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlLinkedServer"
+            },
+            {
+                "Name": "ServerLevelServerTriggers",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerTriggers",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlServerDdlTrigger"
+            },
+            {
+                "Name": "ServerLevelErrorMessages",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ErrorMessages",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlErrorMessage"
+            },
+            {
+                "Name": "ServerLevelEventNotifications",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServerEventNotifications",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlServerEventNotification"
+            },
+            {
+                "Name": "DatabaseInstance",
+                "LocLabel": "string.Empty",
+                "Image": "Database",
+                "BaseClass": "ModelBased",
+                "Strategy": "CreateModel",
+                "Children": ["Tables", "Views", "Synonyms", "Programmability", "ExternalResources", "ServiceBroker", "Storage", "Security"]
+            },
+            {
+                "Name": "Tables",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Tables",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlTable",
+                "DisplayItem": "TableInstanceDisplayItem",
+                "Children": ["SystemTables", "FileTables", "ExternalTables"]
+            },
+            {
+                "Name": "Views",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Views",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlView",
+                "DisplayItem": "ViewInstanceDisplayItem",
+                "Children": ["SystemViews"]
+            },
+            {
+                "Name": "Synonyms",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Synonyms",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSynonym"
+            },
+            {
+                "Name": "Programmability",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Programmability",
+                "BaseClass": "ModelBased",
+                "Children": ["StoredProcedures", "Functions", "DatabaseTriggers", "Assemblies", "Types", "Rules", "Defaults", "Sequences"]
+            },
+            {
+                "Name": "ExternalResources",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ExternalResources",
+                "BaseClass": "ModelBased",
+                "DisplayItem": "ExternalResourceInstanceDisplayItem",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12",
+                "Children": ["ExternalDataSources", "ExternalFileFormats"]
+            },
+            {
+                "Name": "ServiceBroker",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ServiceBroker",
+                "BaseClass": "ModelBased",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext",
+                "Children": ["MessageTypes", "Contracts", "Queues", "Services", "Routes", "DatabaseAndQueueEventNotifications", "RemoteServiceBindings", "BrokerPriorities"]
+            },
+            {
+                "Name": "Storage",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Storage",
+                "BaseClass": "ModelBased",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12",
+                "Children": ["FileGroups", "FullTextCatalogs", "FullTextStopLists", "SqlLogFiles", "PartitionFunctions", "PartitionSchemes", "SearchPropertyLists"]
+            },
+            {
+                "Name": "Security",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Security",
+                "BaseClass": "ModelBased",
+                "Children": ["Users", "Roles", "Schemas", "AsymmetricKeys", "Certificates", "SymmetricKeys", "DatabaseScopedCredentials",
+                    "DatabaseEncryptionKeys", "MasterKeys", "Signatures", "DatabaseAuditSpecifications", "SecurityPolicies", "AlwaysEncryptedKeys"]
+            },
+            {
+                "Name": "SystemTables",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemTables",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlTable",
+                "DisplayItem": "TableInstanceDisplayItem"
+            },
+            {
+                "Name": "FileTables",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_FileTables",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFileTable",
+                "DisplayItem": "TableInstanceDisplayItem",
+                "ValidFor": "Sql2012|Sql2014|Sql2016|SqlvNext|NotDebugInstance"
+            },
+            {
+                "Name": "ExternalTables",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ExternalTables",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlExternalTable",
+                "DisplayItem": "ExternalTableInstanceDisplayItem",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "TableInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlTable",
+                "DisplayItem": "HistoryTableInstanceDisplayItem",
+                "Children": ["Columns", "Keys", "Constraints", "Triggers", "Indexes", "Statistics"]
+            },
+            {
+                "Name": "HistoryTableInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateDetails",
+                "TypesToReverse": "SqlTable",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12",
+                "Children": ["Columns", "Indexes", "Statistics"]
+            },
+            {
+                "Name": "ExternalTableInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateDetails",
+                "TypesToReverse": "SqlExternalTable",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12",
+                "Children": ["Columns", "Statistics"]
+            },
+            {
+                "Name": "Columns",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Columns",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateParentDetails",
+                "TypesToReverse": "SqlColumn"
+            },
+            {
+                "Name": "Keys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Keys",
+                "BaseClass": "ModelBased",
+                "Strategy": "ElementsInRelationship",
+                "TypesToReverse": "SqlPrimaryKeyConstraint;SqlForeignKeyConstraint;SqlUniqueConstraint"
+            },
+            {
+                "Name": "Constraints",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Constraints",
+                "BaseClass": "ModelBased",
+                "Strategy": "ElementsInRelationship",
+                "TypesToReverse": "SqlDefaultConstraint;SqlCheckConstraint"
+            },
+            {
+                "Name": "Triggers",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Triggers",
+                "BaseClass": "ModelBased",
+                "Strategy": "ElementsInRelationship",
+                "TypesToReverse": "SqlDmlTrigger"
+            },
+            {
+                "Name": "Indexes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Indexes",
+                "BaseClass": "ModelBased",
+                "Strategy": "ElementsInRelationship",
+                "TypesToReverse": "SqlIndex;SqlXmlIndex;SqlSelectiveXmlIndex;SqlSpatialIndex;SqlFullTextIndex;SqlColumnStoreIndex"
+            },
+            {
+                "Name": "Statistics",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Statistics",
+                "BaseClass": "ModelBased",
+                "Strategy": "ElementsInRelationship",
+                "TypesToReverse": "SqlStatistic"
+            },
+            {
+                "Name": "SystemViews",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemViews",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlView",
+                "DisplayItem": "ViewInstanceDisplayItem"
+            },
+            {
+                "Name": "ViewInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateDetails",
+                "Children": ["Columns", "Triggers", "Indexes", "Statistics"]
+            },
+            {
+                "Children": ["TableValuedFunctions", "ScalarValuedFunctions", "AggregateFunctions"],
+                "Name": "Functions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Functions",
+                "BaseClass": "ModelBased"
+            },
+            {
+                "Name": "DatabaseTriggers",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_DatabaseTriggers",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlDatabaseDdlTrigger"
+            },
+            {
+                "Name": "Assemblies",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Assemblies",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlAssembly",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "Types",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchyTypes",
+                "BaseClass": "ModelBased",
+                "Children": ["SystemDataTypes", "UserDefinedDataTypes", "UserDefinedTableTypes", "UserDefinedTypes", "XmlSchemaCollections"]
+            },
+            {
+                "Name": "Rules",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Rules",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlRule",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "Defaults",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Defaults",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlDefault",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "Sequences",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Sequences",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSequence",
+                "ValidFor": "Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "SystemDataTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemDataTypes",
+                "BaseClass": "ModelBased",
+                "Children": ["SystemExactNumerics", "SystemApproximateNumerics", "SystemDateAndTimes", "SystemCharacterStrings", "SystemUnicodeCharacterStrings",
+                    "SystemBinaryStrings", "SystemOtherDataTypes", "SystemClrDataTypes", "SystemSpatialDataTypes"]
+            },
+            {
+                "Name": "UserDefinedDataTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_UserDefinedDataTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlUserDefinedDataType"
+            },
+            {
+                "Name": "UserDefinedTableTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_UserDefinedTableTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlTableType",
+                "DisplayItem": "UserDefinedTableTypeInstanceDisplayItem",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV11|AzureV12"
+            },
+            {
+                "Name": "UserDefinedTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_UserDefinedTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlUserDefinedType",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "XmlSchemaCollections",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_XMLSchemaCollections",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlXmlSchemaCollection",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "UserDefinedTableTypeInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": "",
+                "Strategy": "PopulateDetails",
+                "Children": ["UserDefinedTableTypeColumns", "UserDefinedTableTypeKeys", "UserDefinedTableTypeConstraints"]
+            },
+            {
+                "Name": "UserDefinedTableTypeColumns",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Columns",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateParentDetails",
+                "TypesToReverse": "SqlTableTypeSimpleColumn;SqlComputedColumn;SqlTableTypeComputedColumn",
+                "DisableSort": ""
+            },
+            {
+                "Name": "UserDefinedTableTypeKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Keys",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateParentDetails",
+                "TypesToReverse": "SqlTableTypePrimaryKeyConstraint;SqlTableTypeUniqueConstraint"
+            },
+            {
+                "Name": "UserDefinedTableTypeConstraints",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Constraints",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateParentDetails",
+                "TypesToReverse": "SqlTableTypeDefaultConstraint;SqlTableTypeCheckConstraint"
+            },
+            {
+                "Name": "SystemExactNumerics",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemExactNumerics",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemApproximateNumerics",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemApproximateNumerics",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemDateAndTimes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemDateAndTime",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemCharacterStrings",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemCharacterStrings",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemUnicodeCharacterStrings",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemUnicodeCharacterStrings",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemBinaryStrings",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemBinaryStrings",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemOtherDataTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemOtherDataTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBuiltInType"
+            },
+            {
+                "Name": "SystemClrDataTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemCLRDataTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlUserDefinedType",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV11|AzureV12"
+            },
+            {
+                "Name": "SystemSpatialDataTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemSpatialDataTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlUserDefinedType",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV11|AzureV12"
+            },
+            {
+                "Name": "ExternalDataSources",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ExternalDataSources",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlExternalDataSource",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "ExternalFileFormats",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ExternalFileFormats",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlExternalFileFormat",
+                "ValidFor": "Sql2016|SqlvNext"
+            },
+            {
+                "Name": "StoredProcedures",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_StoredProcedures",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlProcedure",
+                "DisplayItem": "StoredProcedureInstanceDisplayItem",
+                "Children": ["SystemStoredProcedures"]
+            },
+            {
+                "Name": "SystemStoredProcedures",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemStoredProcedures",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlProcedure",
+                "DisplayItem": "StoredProcedureInstanceDisplayItem"
+            },
+            {
+                "Name": "StoredProcedureInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": "",
+                "Strategy": "PopulateDetails",
+                "Children": ["StoredProcedureParameters"]
+            },
+            {
+                "Name": "StoredProcedureParameters",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Parameters",
+                "BaseClass": "ModelBased",
+                "Strategy": "StoredProcedureParameters",
+                "TypesToReverse": "SqlSubroutineParameter",
+                "DisableSort": ""
+            },
+            {
+                "Name": "TableValuedFunctions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_TableValuedFunctions",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlTableValuedFunction",
+                "DisplayItem": "TableValuedFunctionInstanceDisplayItem"
+            },
+            {
+                "Name": "TableValuedFunctionInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": "",
+                "Strategy": "PopulateDetails",
+                "Children": ["TableValuedFunctionParameters"]
+            },
+            {
+                "Name": "TableValuedFunctionParameters",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Parameters",
+                "BaseClass": "ModelBased",
+                "Strategy": "FunctionParameters",
+                "TypesToReverse": "SqlSubroutineParameter",
+                "DisableSort": ""
+            },
+            {
+                "Name": "ScalarValuedFunctions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ScalarValuedFunctions",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlScalarFunction",
+                "DisplayItem": "ScalarValuedFunctionInstanceDisplayItem"
+            },
+            {
+                "Name": "ScalarValuedFunctionInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": "",
+                "Strategy": "PopulateDetails",
+                "Children": ["ScalarValuedFunctionParameters"]
+            },
+            {
+                "Name": "ScalarValuedFunctionParameters",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Parameters",
+                "BaseClass": "ModelBased",
+                "Strategy": "FunctionParameters",
+                "TypesToReverse": "SqlSubroutineParameter",
+                "DisableSort": ""
+            },
+            {
+                "Name": "AggregateFunctions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_AggregateFunctions",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlAggregate",
+                "DisplayItem": "AggregateFunctionInstanceDisplayItem",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "AggregateFunctionInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": "",
+                "Strategy": "PopulateDetails",
+                "Children": ["AggregateFunctionParameters"]
+            },
+            {
+                "Name": "AggregateFunctionParameters",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Parameters",
+                "BaseClass": "ModelBased",
+                "Strategy": "PopulateParentDetails",
+                "TypesToReverse": "SqlSubroutineParameter",
+                "DisableSort": ""
+            },
+            {
+                "Name": "Routes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Routes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlRoute"
+            },
+            {
+                "Name": "DatabaseAndQueueEventNotifications",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_EventNotifications",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlEventNotification"
+            },
+            {
+                "Name": "RemoteServiceBindings",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_RemoteServiceBindings",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlRemoteServiceBinding"
+            },
+            {
+                "Name": "BrokerPriorities",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_BrokerPriorities",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlBrokerPriority",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "FileGroups",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_FileGroups",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFilegroup",
+                "DisplayItem": "FileGroupInstanceDisplayItem"
+            },
+            {
+                "Name": "FullTextCatalogs",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_FullTextCatalogs",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFullTextCatalog"
+            },
+            {
+                "Name": "FullTextStopLists",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_FullTextStopLists",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFullTextStopList",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "SqlLogFiles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_LogFiles",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFile"
+            },
+            {
+                "Name": "PartitionFunctions",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_PartitionFunctions",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlPartitionFunction"
+            },
+            {
+                "Name": "PartitionSchemes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_PartitionSchemes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlPartitionScheme"
+            },
+            {
+                "Name": "SearchPropertyLists",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SearchPropertyLists",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSearchPropertyList",
+                "ValidFor": "Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Children": ["FileGroupFiles"],
+                "Name": "FileGroupInstance",
+                "LocLabel": "string.Empty",
+                "BaseClass": "ModelBased",
+                "TypesToReverse": ""
+            },
+            {
+                "Name": "FileGroupFiles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_FilegroupFiles",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlFile"
+            },
+            {
+                "Name": "Users",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Users",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlUser"
+            },
+            {
+                "Name": "Roles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Roles",
+                "BaseClass": "ModelBased",
+                "Children": ["DatabaseRoles", "ApplicationRoles"]
+            },
+            {
+                "Name": "Schemas",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Schemas",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSchema"
+            },
+            {
+                "Name": "AsymmetricKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_AsymmetricKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlAsymmetricKey",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "Certificates",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Certificates",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlCertificate",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "SymmetricKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SymmetricKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSymmetricKey",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "DatabaseEncryptionKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_DatabaseEncryptionKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlDatabaseEncryptionKey",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "MasterKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_MasterKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlMasterKey",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "Signatures",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Signatures",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSignature",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "DatabaseAuditSpecifications",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_DatabaseAuditSpecifications",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlDatabaseAuditSpecification",
+                "ValidFor": "Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext"
+            },
+            {
+                "Name": "SecurityPolicies",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SecurityPolicies",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlSecurityPolicy",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "DatabaseScopedCredentials",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_DatabaseScopedCredentials",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlDatabaseCredential",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Children": ["ColumnMasterKeys", "ColumnEncryptionKeys"],
+                "Name": "AlwaysEncryptedKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_AlwaysEncryptedKeys",
+                "BaseClass": "ModelBased",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "DatabaseRoles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_DatabaseRoles",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlRole"
+            },
+            {
+                "Name": "ApplicationRoles",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ApplicationRoles",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlApplicationRole",
+                "ValidFor": "Sql2005|Sql2008|Sql2012|Sql2014|Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "ColumnMasterKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ColumnMasterKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlColumnMasterKey",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "ColumnEncryptionKeys",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_ColumnEncryptionKeys",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlColumnEncryptionKey",
+                "ValidFor": "Sql2016|SqlvNext|AzureV12"
+            },
+            {
+                "Name": "MessageTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_MessageTypes",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlMessageType",
+                "Children": ["SystemMessageTypes"]
+            },
+            {
+                "Name": "SystemMessageTypes",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemMessageTypes",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlMessageType"
+            },
+            {
+                "Name": "Contracts",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Contracts",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlContract",
+                "Children": ["SystemContracts"]
+            },
+            {
+                "Name": "SystemContracts",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemContracts",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlContract"
+            },
+            {
+                "Name": "Queues",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Queues",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlQueue",
+                "Children": ["SystemQueues"]
+            },
+            {
+                "Name": "SystemQueues",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemQueues",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlQueue"
+            },
+            {
+                "Name": "Services",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_Services",
+                "BaseClass": "ModelBased",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlService",
+                "Children": ["SystemServices"]
+            },
+            {
+                "Name": "SystemServices",
+                "LocLabel": "SchemaHierarchyResources.SchemaHierarchy_SystemServices",
+                "BaseClass": "ModelBased",
+                "IsMsShippedOwned": "",
+                "Strategy": "MultipleElementsOfType",
+                "TypesToReverse": "SqlService"
+            }
+        ],
+        "CodeGenOptions": {
+            "UniqueDisplayItem": ["TableInstanceDisplayItem", "ViewInstanceDisplayItem", "UserDefinedTableTypeInstanceDisplayItem", "StoredProcedureInstanceDisplayItem",
+                "TableValuedFunctionInstanceDisplayItem", "ScalarValuedFunctionInstanceDisplayItem", "AggregateFunctionInstanceDisplayItem", "FileGroupInstanceDisplayItem",
+                "ExternalTableInstanceDisplayItem", "ExternalResourceInstanceDisplayItem"]
+        },
+        "ReverseDependencyList": {
+            "ReverseDependency": {
+                "Type": "SqlUser",
+                "DependsOn": "SqlRole;SqlRoleMembership"
+            }
+        }
+    }
+}
