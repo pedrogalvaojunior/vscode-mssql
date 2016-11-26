@@ -21,16 +21,21 @@ const WS_URL = 'ws://localhost:' + window.location.port + '/';
 
 @Injectable()
 export class DataService {
-    uri: string;
-    private ws: WebSocket;
+    private uri: string;
+    public ws: WebSocket;
     public dataEventObs: Subject<WebSocketEvent>;
     private _shortcuts;
     private _config;
 
+    /* for testing purposes only */
+    public get webSocket(): WebSocket {
+        return this.ws;
+    }
+
     constructor(@Inject(forwardRef(() => Http)) private http) {
         const self = this;
         // grab the uri from the document for requests
-        this.uri = encodeURI(document.getElementById('uri').innerText.trim());
+        this.uri = encodeURI(document.getElementById('uri') ? document.getElementById('uri').innerText.trim() : '');
         this.ws = new WebSocket(WS_URL + '?uri=' + this.uri);
         let observable = Observable.create(
             (obs: Observer<MessageEvent>) => {
@@ -114,11 +119,15 @@ export class DataService {
      * @param selection The selection range to copy
      * @param batchId The batch id of the result to copy from
      * @param resultId The result id of the result to copy from
+     * @param includeHeaders [Optional]: Should column headers be included in the copy selection
      */
-    copyResults(selection: ISlickRange[], batchId: number, resultId: number): void {
+    copyResults(selection: ISlickRange[], batchId: number, resultId: number, includeHeaders?: boolean): void {
         const self = this;
         let headers = new Headers();
         let url = '/copyResults?' + '&uri=' + self.uri + '&batchId=' + batchId + '&resultId=' + resultId;
+        if (includeHeaders !== undefined) {
+            url += '&includeHeaders=' + includeHeaders;
+        }
         self.http.post(url, selection, { headers: headers }).subscribe();
     }
 
@@ -149,7 +158,7 @@ export class DataService {
         self.http.post(url, JSON.stringify({ 'message': message }), { headers: headers }).subscribe();
     }
 
-    get config(): Promise<{[key: string]: string}> {
+    get config(): Promise<{[key: string]: any}> {
         const self = this;
         if (this._config) {
             return Promise.resolve(this._config);
@@ -157,9 +166,9 @@ export class DataService {
             return new Promise<{[key: string]: string}>((resolve, reject) => {
                 self.http.get('/config').map((res): IResultsConfig => {
                     return res.json();
-                }).subscribe((result) => {
-                    self._shortcuts = result.resultShortcuts;
-                    delete result.resultShortcuts;
+                }).subscribe((result: IResultsConfig) => {
+                    self._shortcuts = result.shortcuts;
+                    delete result.shortcuts;
                     self._config = result;
                     resolve(self._config);
                 });

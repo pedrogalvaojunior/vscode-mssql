@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-import {Component, OnInit, Inject, forwardRef, ViewChild, ViewChildren, QueryList, ElementRef,
-    EventEmitter, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
+import { Component, OnInit, Inject, forwardRef, ViewChild, ViewChildren, QueryList, ElementRef,
+    EventEmitter, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { IColumnDefinition, IObservableCollection, IGridDataRow, ISlickRange, SlickGrid,
     VirtualizedCollection, FieldType } from 'angular2-slickgrid';
 
-import {DataService} from './../services/data.service';
-import {ShortcutService} from './../services/shortcuts.service';
+import { DataService } from './../services/data.service';
+import { ShortcutService } from './../services/shortcuts.service';
 import { ContextMenu } from './contextmenu.component';
 import { IGridIcon, ISelectionData, IResultMessage } from './../interfaces';
 
@@ -43,14 +43,88 @@ interface IMessages {
     endTime: string;
 }
 
+    // tslint:disable:max-line-length
+const template = `
+<div class="fullsize vertBox">
+    <div *ngIf="dataSets.length > 0" id="resultspane" class="boxRow header collapsible" [class.collapsed]="!resultActive" (click)="resultActive = !resultActive">
+        <span> {{Constants.resultPaneLabel}} </span>
+        <span class="shortCut"> {{resultShortcut}} </span>
+    </div>
+    <div id="results" *ngIf="renderedDataSets.length > 0" class="results vertBox scrollable"
+         (onScroll)="onScroll($event)" [scrollEnabled]="scrollEnabled" [class.hidden]="!resultActive">
+        <div class="boxRow content horzBox slickgrid" *ngFor="let dataSet of renderedDataSets; let i = index"
+            [style.max-height]="dataSet.maxHeight" [style.min-height]="dataSet.minHeight">
+            <slick-grid #slickgrid id="slickgrid_{{i}}" [columnDefinitions]="dataSet.columnDefinitions"
+                        [ngClass]="i === activeGrid ? 'active' : ''"
+                        [dataRows]="dataSet.dataRows"
+                        (contextMenu)="openContextMenu($event, dataSet.batchId, dataSet.resultId, i)"
+                        enableAsyncPostRender="true"
+                        showDataTypeIcon="false"
+                        showHeader="true"
+                        [resized]="dataSet.resized"
+                        (mousedown)="navigateToGrid(i)"
+                        class="boxCol content vertBox slickgrid">
+            </slick-grid>
+            <span class="boxCol content vertBox">
+                <div class="boxRow content maxHeight" *ngFor="let icon of dataIcons">
+                    <div *ngIf="icon.showCondition()" class="gridIcon">
+                        <a class="icon" href="#"
+                        (click)="icon.functionality(dataSet.batchId, dataSet.resultId, i)"
+                        [title]="icon.hoverText()" [ngClass]="icon.icon()">
+                        </a>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <context-menu #contextmenu (clickEvent)="handleContextClick($event)"></context-menu>
+    <div id="messagepane" class="boxRow header collapsible" [class.collapsed]="!messageActive" (click)="messageActive = !messageActive" style="position: relative">
+        <div id="messageResizeHandle" class="resizableHandle"></div>
+        <span> {{Constants.messagePaneLabel}} </span>
+        <span class="shortCut"> {{messageShortcut}} </span>
+    </div>
+    <div id="messages" class="scrollable messages" [class.hidden]="!messageActive && dataSets.length !== 0">
+        <br>
+        <table id="messageTable">
+            <colgroup>
+                <col span="1" class="wide">
+            </colgroup>
+            <tbody *ngIf="messages.length > 0">
+                <template ngFor let-imessage [ngForOf]="messages">
+                    <tr *ngIf="imessage.selection">
+                        <td>[{{imessage.startTime}}]</td>
+                        <td>{{Constants.messageStartLabel}}<a href="#" (click)="editorSelection(imessage.selection)">{{Utils.formatString(Constants.lineSelectorFormatted, imessage.selection.startLine + 1)}}</a></td>
+                    </tr>
+                    <tr *ngFor="let message of imessage.messages">
+                        <td></td>
+                        <td class="messageValue" [class.errorMessage]="imessage.hasError" style="padding-left: 20px">{{message.message}}</td>
+                    </tr>
+                </template>
+                <tr *ngIf="complete">
+                    <td></td>
+                    <td>{{Utils.formatString(Constants.elapsedTimeLabel, Utils.parseNumAsTimeString(totalElapseExecution))}}</td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="messages.length === 0">
+                <tr>
+                    <td>[{{startString}}]</td>
+                    <td><img src="dist/images/progress_36x_animation.gif" height="18px"><span style="vertical-align: bottom">{{Constants.executeQueryLabel}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="resizeHandle" [class.hidden]="!resizing" [style.top]="resizeHandleTop"></div>
+</div>
+`;
+    // tslint:enable:max-line-length
+
 /**
  * Top level app component which runs and controls the SlickGrid implementation
  */
 @Component({
     selector: 'my-app',
     host: { '(window:keydown)': 'keyEvent($event)', '(window:gridnav)': 'keyEvent($event)' },
-    templateUrl: 'dist/html/app.html',
-    directives: [ContextMenu, SlickGrid],
+    template: template,
     providers: [DataService, ShortcutService],
     styles: [`
     .errorMessage {
@@ -90,6 +164,12 @@ export class AppComponent implements OnInit, AfterViewChecked {
             let activeGrid = this.activeGrid;
             let selection = this.slickgrids.toArray()[activeGrid].getSelectedRanges();
             this.dataService.copyResults(selection, this.renderedDataSets[activeGrid].batchId, this.renderedDataSets[activeGrid].resultId);
+        },
+        'event.copyWithHeaders': () => {
+            let activeGrid = this.activeGrid;
+            let selection = this.slickgrids.toArray()[activeGrid].getSelectedRanges();
+            this.dataService.copyResults(selection, this.renderedDataSets[activeGrid].batchId,
+                this.renderedDataSets[activeGrid].resultId, true);
         },
         'event.maximizeGrid': () => {
             this.magnify(this.activeGrid);
@@ -187,8 +267,8 @@ export class AppComponent implements OnInit, AfterViewChecked {
     private resultShortcut;
     private totalElapseExecution: number;
     private complete = false;
-    @ViewChild(ContextMenu) contextMenu: ContextMenu;
-    @ViewChildren(SlickGrid) slickgrids: QueryList<SlickGrid>;
+    @ViewChild('contextmenu') contextMenu: ContextMenu;
+    @ViewChildren('slickgrid') slickgrids: QueryList<SlickGrid>;
 
     set messageActive(input: boolean) {
         this._messageActive = input;
@@ -201,7 +281,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
         return this._messageActive;
     }
 
-    constructor(@Inject(forwardRef(() => DataService)) private dataService: DataService,
+    constructor(@Inject(forwardRef(() => DataService)) public dataService: DataService,
                 @Inject(forwardRef(() => ShortcutService)) private shortcuts: ShortcutService,
                 @Inject(forwardRef(() => ElementRef)) private _el: ElementRef,
                 @Inject(forwardRef(() => ChangeDetectorRef)) private cd: ChangeDetectorRef) {}
@@ -346,12 +426,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
             case 'string':
                 fieldtype = FieldType.String;
                 break;
-            case 'boolean':
-                fieldtype = FieldType.Boolean;
-                break;
-            case 'decimal':
-                fieldtype = FieldType.Decimal;
-                break;
             default:
                 fieldtype = FieldType.String;
                 break;
@@ -373,6 +447,13 @@ export class AppComponent implements OnInit, AfterViewChecked {
             case 'selectall':
                 this.activeGrid = event.index;
                 this.shortcutfunc['event.selectAll']();
+                break;
+            case 'copySelection':
+                this.dataService.copyResults(event.selection, event.batchId, event.resultId);
+                break;
+            case 'copyWithHeaders':
+                this.dataService.copyResults(event.selection, event.batchId, event.resultId, true);
+                break;
             default:
                 break;
         }
@@ -466,7 +547,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
                 }
             } else {
                 let gridHeight = self._el.nativeElement.getElementsByTagName('slick-grid')[0].offsetHeight;
-                let tabHeight = document.getElementById('results').offsetHeight;
+                let tabHeight = self._el.nativeElement.querySelector('#results').offsetHeight;
                 let numOfVisibleGrids = Math.ceil((tabHeight / gridHeight)
                     + ((scrollTop % gridHeight) / gridHeight));
                 let min = Math.floor(scrollTop / gridHeight);
@@ -504,8 +585,8 @@ export class AppComponent implements OnInit, AfterViewChecked {
      */
     setupResizeBind(): void {
         const self = this;
-        let $resizeHandle = $(document.getElementById('messageResizeHandle'));
-        let $messagePane = $(document.getElementById('messages'));
+        let $resizeHandle = $(self._el.nativeElement.querySelector('#messageResizeHandle'));
+        let $messagePane = $(self._el.nativeElement.querySelector('#messages'));
         $resizeHandle.bind('dragstart', (e) => {
             self.resizing = true;
             self.resizeHandleTop = e.pageY;
@@ -529,7 +610,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
      * Ensures the messages tab is scrolled to the bottom
      */
     scrollMessages(): void {
-        let messagesDiv = document.getElementById('messages');
+        let messagesDiv = this._el.nativeElement.querySelector('#messages');
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
@@ -572,14 +653,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
                 e.stopImmediatePropagation();
             }
         });
-    }
-
-    /**
-     * Obtains the index in the slickgrids array which is currently focused
-     * @returns The index in the local slickgrids array that is currently focused
-     */
-    getActiveGridIndex(): number {
-        return parseInt($(document.activeElement).parent().parent().attr('id').split('_')[1], 10);
     }
 
     /**
