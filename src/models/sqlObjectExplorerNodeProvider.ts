@@ -1,125 +1,131 @@
-
+'use strict';
 // import * as vscode from 'vscode';
 import ConnectionManager from '../controllers/connectionManager';
+import { ConnectionStore } from './ConnectionStore';
+import { IConnectionCredentials } from './interfaces';
+import * as Utils from './utils';
 
 import { TreeExplorerNodeProvider } from 'vscode';
-
-import * as fs from 'fs';
-import * as path from 'path';
 
 
 class SqlObjectExplorerNodeProvider implements TreeExplorerNodeProvider<ObjectExplorerNode> {
     public static providerId = 'sqlObjectExplorer';
-
+    private _connectionStore: ConnectionStore;
     constructor(private _connectionManager: ConnectionManager) {
-
+        this._connectionStore = _connectionManager.connectionStore;
     }
 
+
     getLabel(node: ObjectExplorerNode): string {
-        switch (node.kind) {
-            case 'root':
-                return '';
-            case 'node':
-                return 'node';
-            case 'leaf':
-                return 'leaf';
-            default:
-                // unexpected
-                throw new Error('Unsupported node type in tree');
-        }
+        return node.displayName;
     }
 
     getHasChildren(node: ObjectExplorerNode): boolean {
-        return node.kind !== 'leaf';
+        return !node.isLeaf;
     }
 
     getClickCommand(node: ObjectExplorerNode): string {
-        if (node.kind === 'leaf') {
-            return 'extension.openPackageOnNpm';
-        } else {
-            return undefined;
-        }
+        return node.getClickCommand();
     }
 
     provideRootNode(): ObjectExplorerNode {
-        return new Root();
+        return new RootNode(this._connectionStore);
     }
 
     resolveChildren(node: ObjectExplorerNode): Thenable<ObjectExplorerNode[]> {
+        return node.resolveChildren();
+    }
+}
+
+abstract class ObjectExplorerNode {
+    private _displayName;
+
+    constructor(public isLeaf: boolean) {
+
+    }
+
+    public get displayName(): string {
+        return (this._displayName !== undefined) ? this._displayName : '';
+    }
+
+    protected setDisplayName(name: string): void {
+        this._displayName = name;
+    }
+    public abstract getClickCommand(): string;
+
+    public resolveChildren(): Thenable<ObjectExplorerNode[]> {
+        let self = this;
         return new Promise((resolve, reject) => {
-            switch (node.kind) {
-                case 'root':
-                    resolve(this.getDepsInPackageJson(path.join(this.workspaceRoot, 'package.json')));
-                    break;
-                case 'node':
-                    resolve(this.getDepsInPackageJson(path.join(this.workspaceRoot, 'node_modules', node.moduleName, 'package.json')));
-                    break;
-                case 'leaf':
-                    resolve([]);
-                    break;
-                default:
-                    throw new Error('Unsupported node type in tree');
+            if (this.isLeaf) {
+                resolve([]);
+            } else {
+                resolve(self.doResolveChildren());
             }
         });
     }
 
-    private getDepsInPackageJson(filePath: string): ObjectExplorerNode[] {
-        try {
-            fs.accessSync(filePath);
+    protected abstract doResolveChildren(): ObjectExplorerNode[];
+}
 
-            const packageJson = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+class RootNode extends ObjectExplorerNode {
 
-            const deps = Object.keys(packageJson.dependencies).map(d => {
-                try {
-                    fs.accessSync(path.join(this.workspaceRoot, 'node_modules', d));
-                    return new ConnectionNode(d);
-                } catch (err) {
-                    return new Leaf(d);
-                }
-            });
-            const devDeps = Object.keys(packageJson.devDependencies).map(d => {
-                try {
-                    fs.accessSync(path.join(this.workspaceRoot, 'node_modules', d));
-                    return new ConnectionNode(d);
-                } catch (err) {
-                    return new Leaf(d);
-                }
-            });
+    constructor(private _connectionStore: ConnectionStore) {
+        super(false);
+    }
 
-            return deps.concat(devDeps);
-        } catch (err) { // No package.json at root
-            return [];
+    getClickCommand(): string {
+        return undefined;
+    }
+
+    doResolveChildren(): ObjectExplorerNode[] {
+        let self = this;
+        // For now, just show items saved in the profiles list
+        let nodes: ObjectExplorerNode[] = this._connectionStore.getProfilePickListItems(false).map((profile, i) => {
+            return new ServerNode(self._connectionStore, profile.connectionCreds);
+        });
+        return nodes;
+    }
+
+}
+
+class ServerNode extends ObjectExplorerNode {
+    private _isDatabaseConn: boolean;
+    constructor(private _connectionStore: ConnectionStore, private _connInfo: IConnectionCredentials) {
+        super(false);
+        if (!Utils.isDefaultDatabase(_connInfo.database)) {
+            this._isDatabaseConn = true;
         }
+        this.setDisplayName(this.calcDisplayName());
     }
-}
 
-type ObjectExplorerNode = Root | ConnectionNode | FolderNode | Leaf;
+    private calcDisplayName(): string {
+        let params: string[] = [];
 
-class Root {
-    kind: "root" = 'root';
-}
+        // TODO ideally we should know the server version.
+        if (this._connInfo.user) {
+            params.push(this._connInfo.user);
+        }
+        if (this._isDatabaseConn) {
+            params.push(this._connInfo.database);
+        }
 
-class ConnectionNode {
-    kind: "connectionNode" = 'connectionNode';
-
-    constructor(public name: string) {
-
+        let name = this._connInfo.server;
+        if (params.length === 1) {
+            name += ` (${params[0]})`;
+        } else if (params.length > 1) {
+            name += ` (${params.join(', ')})`;
+        }
+        return name;
     }
-}
-class FolderNode {
-    kind: "folderNode" = 'folderNode';
 
-    constructor(public name: string) {
-
+    getClickCommand(): string {
+        return undefined;
     }
-}
 
-class Leaf {
-    kind: "leaf" = 'leaf';
-
-    constructor(public name: string) {
-
+    doResolveChildren(): ObjectExplorerNode[] {
+        return [];
     }
+
 }
 
 export { SqlObjectExplorerNodeProvider, ObjectExplorerNode }

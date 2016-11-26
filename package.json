@@ -115,7 +115,7 @@
     "explorer": {
       "treeExplorerNodeProviderId": "sqlObjectExplorer",
       "treeLabel": "SQL Server Object Explorer",
-      "icon": "images/dep.svg"
+      "icon": "images/ToolWindowIcon.bmp"
     },
     "grammars": [
       {

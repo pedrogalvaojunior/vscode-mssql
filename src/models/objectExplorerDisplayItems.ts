@@ -27,10 +27,6 @@ class DisplayItemGenerator {
 
 }
 
-class TreeNode {
-
-    public isAlway
-}
 
 interface IDisplayItems {
     ServerExplorerTree: IServerExplorerTree;

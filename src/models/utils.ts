@@ -169,6 +169,13 @@ export function formatString(str: string, ...args: any[]): string {
 }
 
 /**
+ * Checks if a database name is empty or master, which indicates it
+ * is the default database for a server.
+ */
+export function isDefaultDatabase(database: string): boolean {
+    return isEmpty(database) || database === Constants.defaultDatabase;
+}
+/**
  * Compares 2 database names to see if they are the same.
  * If either is undefined or empty, it is assumed to be 'master'
  */
