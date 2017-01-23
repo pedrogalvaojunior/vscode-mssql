@@ -53,9 +53,16 @@ const template = `
                         [ngClass]="i === activeGrid ? 'active' : ''"
                         [dataRows]="dataSet.dataRows"
                         (contextMenu)="openContextMenu($event, dataSet.batchId, dataSet.resultId, i)"
+                        (cellEditBegin)="onCellEditBegin($event)"
+                        (cellEditEnd)="onCellEditEnd($event)"
+                        (rowEditBegin)="onRowEditBegin($event)"
+                        (rowEditEnd)="onRowEditEnd($event)"
+                        [isColumnEditable]="onIsColumnEditable"
+                        [isCellEditValid]="onIsCellEditValid"
                         enableAsyncPostRender="true"
                         showDataTypeIcon="false"
                         showHeader="true"
+                        enableEditing="true"
                         [resized]="dataSet.resized"
                         (mousedown)="navigateToGrid(i)"
                         [selectionModel]="selectionModel"
@@ -439,6 +446,59 @@ export class AppComponent implements OnInit, AfterViewChecked {
     openContextMenu(event: {x: number, y: number}, batchId, resultId, index): void {
         let selection = this.slickgrids.toArray()[index].getSelectedRanges();
         this.contextMenu.show(event.x, event.y, batchId, resultId, index, selection);
+    }
+
+    enterGridEditSession(): void {
+        let grids: SlickGrid[] = this.slickgrids.toArray();
+        if (grids.length === 0) {
+            return;
+        }
+
+        let grid: SlickGrid = grids[0];
+        grid.enterEditSession();
+    }
+
+    endGridEditSession(): void {
+        let grids: SlickGrid[] = this.slickgrids.toArray();
+        if (grids.length === 0) {
+            return;
+        }
+
+        let grid: SlickGrid = grids[0];
+        grid.endEditSession();
+    }
+
+    onCellEditEnd(event: {row: number, column: number, newValue: any}): void {
+        if (event !== undefined) {
+            console.log(event.newValue);
+        }
+    }
+
+    onCellEditBegin(event: {row: number, column: number}): void {
+        if (event !== undefined) {
+            console.log(event.row + ', '  + event.column);
+        }
+    }
+
+    onRowEditBegin(event: {row: number}): void {
+        if (event !== undefined) {
+            console.log(event.row);
+        }
+    }
+
+    onRowEditEnd(event: {row: number}): void {
+        if (event !== undefined) {
+            console.log(event.row);
+        }
+    }
+
+    onIsCellEditValid(row: number, column: number, newValue: any): boolean {
+        console.log(row);
+        return true;
+    }
+
+    onIsColumnEditable(column: number): boolean {
+        return true;
     }
 
     /**
