@@ -341,10 +341,15 @@ export class AppComponent implements OnInit, AfterViewChecked {
                     };
 
                     // Precalculate the max height and min height
-                    let maxHeight = resultSet.rowCount < self._defaultNumShowingRows
-                        ? Math.max((resultSet.rowCount + 1) * self._rowHeight, self.dataIcons.length * 30) + 10
+                    let rowCountIncludingExtraRow: number = resultSet.rowCount;
+                    if (this.gridHasExtraRow()) {
+                        rowCountIncludingExtraRow++;
+                    }
+
+                    let maxHeight = rowCountIncludingExtraRow < self._defaultNumShowingRows
+                        ? Math.max((rowCountIncludingExtraRow + 1) * self._rowHeight, self.dataIcons.length * 30) + 10
                         : 'inherit';
-                    let minHeight = resultSet.rowCount > self._defaultNumShowingRows
+                    let minHeight = rowCountIncludingExtraRow > self._defaultNumShowingRows
                         ? (self._defaultNumShowingRows + 1) * self._rowHeight + 10
                         : maxHeight;
 
@@ -446,6 +451,22 @@ export class AppComponent implements OnInit, AfterViewChecked {
     openContextMenu(event: {x: number, y: number}, batchId, resultId, index): void {
         let selection = this.slickgrids.toArray()[index].getSelectedRanges();
         this.contextMenu.show(event.x, event.y, batchId, resultId, index, selection);
+    }
+
+    gridHasExtraRow(): boolean {
+        return true;
+        // TODO determine when the extra add row is present. We may beed a boolean in this file
+        // because the grid is not yet initialized when this will be called
+
+        /*
+        let grids: SlickGrid[] = this.slickgrids.toArray();
+        if (grids.length === 0) {
+            return false;
+        }
+
+        let grid: SlickGrid = grids[0];
+        return grid.enableEditing === true; // Explicit true check to prevent undefined
+        */
     }
 
     enterGridEditSession(): void {
